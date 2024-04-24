@@ -1,19 +1,22 @@
-module mul_top(ai,bi,sign,result);
+module mul_top(ai,bi,sign,low,high);
 	input 	[63:0]	    ai;
 	input	[63:0]	    bi;
     input               sign;
-    output  [127:0]     result;
+    // output  [127:0]     result;
+    output  [63:0]      low;
+    output  [63:0]      high;
 
     wire 	[127:0]	    part_result [32:0];
     wire                sign_a;	  
     wire                sign_b;	
 
     assign sign_a = sign & ai[63];
-    assign sign_b = sign & bi[63];   
+    assign sign_b = sign & bi[63]; 
 
     wallace_tree tree0(
         .part_result(part_result),
-        .result(result)
+        .result({high,low})
+        // .result(result)
     );        
 	
     genvar i;
@@ -29,7 +32,7 @@ module mul_top(ai,bi,sign,result);
             else if(i == 64) begin
                 partial_gen gen1(
                     .x({ai,sign_a}),
-                    .src(1'b0,bi[i-1:i-2]),
+                    .src({1'b0,bi[i-1:i-2]}),
                     .part_result(part_result[32])
                 );
             end

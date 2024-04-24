@@ -70,6 +70,9 @@ module wallace_tree (part_result,result);
     wire        [127:0]  s_lev6_1;
     wire        [127:0]  c_lev6_1;
 
+    wire        [127:0]  s_lev7_1;
+    wire        [127:0]  c_lev7_1;
+
     //level0
 	fa_csa #(.width(128)) csa0_0(
         .ai(part_result[0]),
@@ -205,36 +208,36 @@ module wallace_tree (part_result,result);
         .ai(s_lev1_1),
         .bi(c_lev1_1 << 1),
         .ci(s_lev1_2),
-        .result(s_lev1_1),
-        .co(c_lev1_1)
+        .result(s_lev2_1),
+        .co(c_lev2_1)
     );
     fa_csa #(.width(128)) csa2_1(
         .ai(c_lev1_2 << 1),
         .bi(s_lev1_3),
         .ci(c_lev1_3 << 1),
-        .result(s_lev1_2),
-        .co(c_lev1_2)
+        .result(s_lev2_2),
+        .co(c_lev2_2)
     );
     fa_csa #(.width(128)) csa2_2(
         .ai(s_lev1_4),
         .bi(c_lev1_4 << 1),
         .ci(s_lev1_5),
-        .result(s_lev1_3),
-        .co(c_lev1_3)
+        .result(s_lev2_3),
+        .co(c_lev2_3)
     );
     fa_csa #(.width(128)) csa2_3(
         .ai(c_lev1_5 << 1),
         .bi(s_lev1_6),
         .ci(c_lev1_6 << 1),
-        .result(s_lev1_4),
-        .co(c_lev1_4)
+        .result(s_lev2_4),
+        .co(c_lev2_4)
     );
     fa_csa #(.width(128)) csa2_4(
         .ai(s_lev1_7),
         .bi(c_lev1_7 << 1),
         .ci(c_lev0_11 << 1),
-        .result(s_lev1_5),
-        .co(c_lev1_5)
+        .result(s_lev2_5),
+        .co(c_lev2_5)
     );
 
     //level3

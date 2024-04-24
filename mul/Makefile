@@ -1,12 +1,12 @@
 BUILD_DIR ?= $(WORK_DIR)/build
-TOPNAME = Brent_Kung_Adder
+TOPNAME = mul_top
 EXE = $(BUILD_DIR)/$(TOPNAME)
 WAVE = waveform.vcd
 
 VERILATOR = verilator
 VERILATOR_CFLAGS += -MMD --cc --build -j 0  \
 				-O3 --x-assign fast --x-initial fast \
-				--noassert --trace -I./vsrc/
+				--noassert --trace
 WORK_DIR  = $(shell pwd)
 
 OBJ_DIR = $(BUILD_DIR)/obj_dir

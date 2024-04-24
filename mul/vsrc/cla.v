@@ -1,4 +1,4 @@
-module cla #(width=128,size=4)(a,b,cin,s,q);
+module cla #(width=128,size=4)(a,b,cin,s,co);
 
 	input 	[width-1:0]		a;
 	input 	[width-1:0]		b;
@@ -9,7 +9,7 @@ module cla #(width=128,size=4)(a,b,cin,s,q);
     wire    [width/size:0]       temp;
 
     assign  temp[0] = cin;
-    assign  cout = temp[width/size];
+    assign  co = temp[width/size];
 
 	genvar i;
 	generate

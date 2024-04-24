@@ -1,4 +1,4 @@
-module cla_part#(width=4)(a,b,cin,s,q);
+module cla_part#(width=4)(a,b,cin,s,co);
 
 	input 	[width-1:0]		a;
 	input 	[width-1:0]		b;
@@ -16,7 +16,8 @@ module cla_part#(width=4)(a,b,cin,s,q);
 	carry_generate carry0(
 		.p(p),
 		.g(g),
-		.c(c)
+		.c0(cin),
+		.c(c[width:1])
 	);
 
 	sum_generate sum0(

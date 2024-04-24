@@ -6,7 +6,7 @@
   > Created Time: 2023年07月13日 星期四 11时16分41秒
  ************************************************************************/
 #include <verilated.h>
-#include "VBrent_Kung_Adder.h"
+#include "Vmul_top.h"
 #include <verilated_vcd_c.h>
 #include <time.h>
 #include <stdlib.h>
@@ -31,51 +31,48 @@ int main(int argc, char** argv, char** env) {
 	long long b_c = 0;
 	long long s_c = 0;
 	
-	// dut.clk = 0; 
-	// dut.eval();
-	// dut.rst = 1;
-	// 加法
+	// signed
+	// for(int i = 0; i < 100; i ++){
+	// 	a = rand()%(0x00000000fffffff);
+	// 	b = -1 * rand()%(0x00000000ffffffff);
+	// 	dut.A = a;
+	// 	dut.B = b;
+	// 	dut.c0 = 0;
+
+	// 	dut.eval();
+
+	// 	m_trace->dump(sim_time);
+	// 	sim_time++;
+	// 	sprintf(buf,"%lld+%lld=[%lld]---",a, b, dut.S);
+	// 	sscanf(buf,"%lld+%lld=[%lld]---",&a_c, &b_c, &s_c);
+
+
+	// 	printf("%s",buf);
+	// 	printf("[%lld]-----", a + b);
+	// 	if((a + b) == s_c) printf("对！\n");
+	// 	else printf("错误！！！\n");
+	// }
+
+	// unsigned
 	for(int i = 0; i < 100; i ++){
-		a = rand()%(0x000000fffffffff);
-		b = -1 * rand()%(0x000000ffffffffff);
-		dut.A = a;
-		dut.B = b;
-		dut.c0 = 0;
-
-		dut.eval();
-
-		m_trace->dump(sim_time);
-		sim_time++;
-		sprintf(buf,"%lld+%lld=[%lld]---",a, b, dut.S);
-		sscanf(buf,"%lld+%lld=[%lld]---",&a_c, &b_c, &s_c);
-
-
-		printf("%s",buf);
-		printf("[%lld]-----", a + b);
-		if((a + b) == s_c) printf("对！\n");
-		else printf("错误！！！\n");
-	}
-
-	// 加法
-	for(int i = 0; i < 100; i ++){
-		a = rand()%(0x000000ffffffffff);
-		b = rand()%(0x000000ffffffffff);
-		dut.A = a;
-		dut.B = ~b;
-		dut.c0 = 1;
+		a = rand()%(0x00000000ffffffff);
+		b = rand()%(0x00000000ffffffff);
+		dut.ai = a;
+		dut.bi = b;
+		dut.sign = 0;
 
 		dut.eval();
 
 		m_trace->dump(sim_time);
 		sim_time++;
 		
-		sprintf(buf,"%lld-%lld=[%lld]---",a, b,dut.S);
+		sprintf(buf,"%lld-%lld=[0x%016x]---",a, b, dut.low);
 		sscanf(buf,"%lld-%lld=[%lld]---",&a_c, &b_c, &s_c);
 
 
 		printf("%s",buf);
-		printf("[%lld]--[%lld]-----", a - b, (dut.A + dut.B + 1));
-		if((a - b) == s_c) printf("对！\n");
+		printf("[%lld]--[%lld]-----", a * b);
+		if((a * b) == s_c) printf("对！\n");
 		else printf("错误！！！！\n");
 
 		// printf("%lld - %lld  = [%lld]--[%lld] [%lld]\n",a,b, dut.result,(a - b), (dut.a + dut.b + 1));

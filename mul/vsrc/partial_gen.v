@@ -1,4 +1,4 @@
-module partial_gen(src,part_result);
+module partial_gen(x,src,part_result);
     input	[64:0]	    x;
 	input 	[2:0]	    src;
 	output	[127:0]	    part_result;
@@ -22,7 +22,7 @@ module partial_gen(src,part_result);
         .zero(zero),
         .one(one),
         .two(two),
-        .p(part_result),
+        .p(part_result)
     );
 
 endmodule
