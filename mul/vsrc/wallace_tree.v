@@ -1,6 +1,6 @@
 // 生成部分积
 module wallace_tree (part_result,result);
-	input 		[127:0]	part_result [31:0];	
+	input 		[127:0]	part_result [32:0];	
 	output 		[127:0]	result;
 
     wire        [127:0]  s_lev0_1;
@@ -23,6 +23,8 @@ module wallace_tree (part_result,result);
     wire        [127:0]  c_lev0_9;
     wire        [127:0]  s_lev0_10;
     wire        [127:0]  c_lev0_10;
+    wire        [127:0]  s_lev0_11;
+    wire        [127:0]  c_lev0_11;
 
     wire        [127:0]  s_lev1_1;
     wire        [127:0]  c_lev1_1;
@@ -139,6 +141,13 @@ module wallace_tree (part_result,result);
         .result(s_lev0_10),
         .co(c_lev0_10)
     );
+    fa_csa #(.width(128)) csa0_10(
+        .ai(part_result[30] << 60),
+        .bi(part_result[31] << 62),
+        .ci(part_result[32] << 64),
+        .result(s_lev0_11),
+        .co(c_lev0_11)
+    );
 
     //level1
 	fa_csa #(.width(128)) csa1_0(
@@ -184,9 +193,9 @@ module wallace_tree (part_result,result);
         .co(c_lev1_6)
     );
     fa_csa #(.width(128)) csa1_6(
-        .ai(part_result[30] << 60),
-        .bi(part_result[31] << 62),
-        .ci(s_lev0_10),
+        .ai(c_lev0_10 << 1),
+        .bi(s_lev0_10),
+        .ci(s_lev0_11),
         .result(s_lev1_7),
         .co(c_lev1_7)
     );
@@ -223,7 +232,7 @@ module wallace_tree (part_result,result);
     fa_csa #(.width(128)) csa2_4(
         .ai(s_lev1_7),
         .bi(c_lev1_7 << 1),
-        .ci(c_lev0_10 << 1),
+        .ci(c_lev0_11 << 1),
         .result(s_lev1_5),
         .co(c_lev1_5)
     );

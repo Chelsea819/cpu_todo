@@ -1,5 +1,5 @@
 module partial_gen(src,part_result);
-    input	[63:0]	    x;
+    input	[64:0]	    x;
 	input 	[2:0]	    src;
 	output	[127:0]	    part_result;
 
