@@ -26,59 +26,127 @@ int main(int argc, char** argv, char** env) {
 	srand((unsigned)time(NULL));
 	long unsigned int a = 0;
 	long unsigned int b = 0;
+	long long a2 = 0;
+	long long b2 = 0;
 	char *buf = (char *)malloc(1024);
 	char *buf2 = (char *)malloc(1024);
 
 	long unsigned int a_c = 0;
 	long unsigned int b_c = 0;
 	long unsigned int s_c = 0;
-	
-	// signed
-	// for(int i = 0; i < 100; i ++){
-	// 	a = rand()%(0x00000000fffffff);
-	// 	b = -1 * rand()%(0x00000000ffffffff);
-	// 	dut.A = a;
-	// 	dut.B = b;
-	// 	dut.c0 = 0;
 
-	// 	dut.eval();
+	long long a_c2 = 0;
+	long long b_c2 = 0;
+	long long s_c2 = 0;
 
-	// 	m_trace->dump(sim_time);
-	// 	sim_time++;
-	// 	sprintf(buf,"%lld+%lld=[%lld]---",a, b, dut.S);
-	// 	sscanf(buf,"%lld+%lld=[%lld]---",&a_c, &b_c, &s_c);
-
-
-	// 	printf("%s",buf);
-	// 	printf("[%lld]-----", a + b);
-	// 	if((a + b) == s_c) printf("对！\n");
-	// 	else printf("错误！！！\n");
-	// }
-
-	// unsigned
-
-		a = 0x1111ffffffffffff;
-		b = 0x2222222222222222;
-		dut.ai = a;
-		dut.bi = b;
-		dut.sign = 0;
+	for(int i = 0; i < 1000; i ++){
+		a2 = rand()%(0xffffffffffffffff) * -1;
+		b2 = rand()%(0x0fffffffffffffff) * -1;
+		dut.ai = a2;
+		dut.bi = b2;
+		dut.sign = 1;
 
 		dut.eval();
 
 		m_trace->dump(sim_time);
 		sim_time++;
 		
-		sprintf(buf,"0x%016lx * 0x%016lx = [0x%016lx]---",a, b, dut.low);
-		sscanf(buf,"0x%016lx * 0x%016lx=[0x%016lx]---",&a_c, &b_c, &s_c);
+		sprintf(buf,"%lld * %lld = [%lld]---",a2, b2, dut.low);
+		sscanf(buf,"%lld * %lld=[%lld]---",&a_c2, &b_c2, &s_c2);
 
-		sprintf(buf2,"0x%016lx * 0x%016lx = [0x%016lx]---",a, b, a*b);
+		sprintf(buf2,"%lld * %lld = [%lld]---",a2, b2, a2*b2);
 
 
-		printf("%s",buf);
-		printf("[0x%016lx]--", a * b);
-		if(strcmp(buf,buf2) == 0) {printf("对！\n");}
+		// printf("%s",buf);
+		// printf("[%lld]--", a2 * b2);
+		if(strcmp(buf,buf2) == 0) {}
 		
 		else printf("错误 ！！！！\n");
+
+		// printf("%lld - %lld  = [%lld]--[%lld] [%lld]\n",a,b, dut.result,(a - b), (dut.a + dut.b + 1));
+	}
+
+	for(int i = 0; i < 1000; i ++){
+		a2 = rand()%(0xffffffffffffffff);
+		b2 = rand()%(0x0fffffffffffffff) * -1;
+		dut.ai = a2;
+		dut.bi = b2;
+		dut.sign = 1;
+
+		dut.eval();
+
+		m_trace->dump(sim_time);
+		sim_time++;
+		
+		sprintf(buf,"%lld * %lld = [%lld]---",a2, b2, dut.low);
+		sscanf(buf,"%lld * %lld=[%lld]---",&a_c2, &b_c2, &s_c2);
+
+		sprintf(buf2,"%lld * %lld = [%lld]---",a2, b2, a2*b2);
+
+
+		// printf("%s",buf);
+		// printf("[%lld]--", a2 * b2);
+		if(strcmp(buf,buf2) == 0) {}
+		
+		else printf("错误 ！！！！\n");
+
+		// printf("%lld - %lld  = [%lld]--[%lld] [%lld]\n",a,b, dut.result,(a - b), (dut.a + dut.b + 1));
+	}
+
+	for(int i = 0; i < 1000; i ++){
+		a2 = rand()%(0xffffffffffffffff) * -1;
+		b2 = rand()%(0xffffffffffffffff);
+		dut.ai = a2;
+		dut.bi = b2;
+		dut.sign = 1;
+
+		dut.eval();
+
+		m_trace->dump(sim_time);
+		sim_time++;
+		
+		sprintf(buf,"%lld * %lld = [%lld]---",a2, b2, dut.low);
+		sscanf(buf,"%lld * %lld=[%lld]---",&a_c2, &b_c2, &s_c2);
+
+		sprintf(buf2,"%lld * %lld = [%lld]---",a2, b2, a2*b2);
+
+
+		// printf("%s",buf);
+		// printf("[%lld]--", a2 * b2);
+		if(strcmp(buf,buf2) == 0) {}
+		
+		else printf("错误 ！！！！\n");
+
+		// printf("%lld - %lld  = [%lld]--[%lld] [%lld]\n",a,b, dut.result,(a - b), (dut.a + dut.b + 1));
+	}
+	
+	for(int i = 0; i < 1000; i ++){
+		a2 = rand()%(0xffffffffffffffff);
+		b2 = rand()%(0xffffffffffffffff);
+		dut.ai = a2;
+		dut.bi = b2;
+		dut.sign = 1;
+
+		dut.eval();
+
+		m_trace->dump(sim_time);
+		sim_time++;
+		
+		sprintf(buf,"%lld * %lld = [%lld]---",a2, b2, dut.low);
+		sscanf(buf,"%lld * %lld=[%lld]---",&a_c2, &b_c2, &s_c2);
+
+		sprintf(buf2,"%lld * %lld = [%lld]---",a2, b2, a2*b2);
+
+
+		// printf("%s",buf);
+		// printf("[%lld]--", a2 * b2);
+		if(strcmp(buf,buf2) == 0) {}
+		
+		else printf("错误 ！！！！\n");
+
+		// printf("%lld - %lld  = [%lld]--[%lld] [%lld]\n",a,b, dut.result,(a - b), (dut.a + dut.b + 1));
+	}
+	// unsigned
 
 	for(int i = 0; i < 1000; i ++){
 		a = rand()%(0xffffffffffffffff);
