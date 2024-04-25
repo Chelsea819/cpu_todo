@@ -41,7 +41,6 @@ VM_CLASSES_SLOW += \
 	Vmul_top___024root__Slow \
 	Vmul_top___024root__DepSet_h460fa5f7__0__Slow \
 	Vmul_top___024root__DepSet_hf84c82e0__0__Slow \
-	Vmul_top___024root__DepSet_hf84c82e0__1__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \

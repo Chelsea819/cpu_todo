@@ -308,7 +308,7 @@ module wallace_tree (part_result,result);
 
     cla #(.width(128),.size(4)) cla0(
         .a(s_lev7_1),
-        .b(c_lev7_1),
+        .b(c_lev7_1 << 1),
         .cin(1'b0),
         .s(result),
         .co()

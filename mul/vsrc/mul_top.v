@@ -24,22 +24,22 @@ module mul_top(ai,bi,sign,low,high);
         for(i = 0; i <= 64; i = i + 2) begin
             if(i == 0) begin
                 partial_gen gen0(
-                    .x({ai,sign_a}),
-                    .src({bi[0],sign_b,1'b0}),
+                    .x({sign_a,ai}),
+                    .src({bi[1:0],1'b0}),
                     .part_result(part_result[0])
                 );
             end
             else if(i == 64) begin
                 partial_gen gen1(
-                    .x({ai,sign_a}),
-                    .src({1'b0,bi[i-1:i-2]}),
+                    .x({sign_a,ai}),
+                    .src({1'b0,sign_b,bi[i-1]}),
                     .part_result(part_result[32])
                 );
             end
             else begin
                 partial_gen gen2(
-                    .x({ai,sign_a}),
-                    .src(bi[i:i-2]),
+                    .x({sign_a,ai}),
+                    .src(bi[i+1:i-1]),
                     .part_result(part_result[i/2])
                 );
             end

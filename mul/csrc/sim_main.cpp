@@ -10,6 +10,7 @@
 #include <verilated_vcd_c.h>
 #include <time.h>
 #include <stdlib.h>
+#include <string.h>
 
 // #define MAX_SIM_TIME 100
 vluint64_t sim_time = 0;
@@ -23,13 +24,14 @@ int main(int argc, char** argv, char** env) {
 	dut.trace(m_trace, 5);               
 	m_trace->open("waveform.vcd");
 	srand((unsigned)time(NULL));
-	long long a = 0;
-	long long b = 0;
+	long unsigned int a = 0;
+	long unsigned int b = 0;
 	char *buf = (char *)malloc(1024);
+	char *buf2 = (char *)malloc(1024);
 
-	long long a_c = 0;
-	long long b_c = 0;
-	long long s_c = 0;
+	long unsigned int a_c = 0;
+	long unsigned int b_c = 0;
+	long unsigned int s_c = 0;
 	
 	// signed
 	// for(int i = 0; i < 100; i ++){
@@ -54,9 +56,9 @@ int main(int argc, char** argv, char** env) {
 	// }
 
 	// unsigned
-	for(int i = 0; i < 100; i ++){
-		a = rand()%(0x00000000ffffffff);
-		b = rand()%(0x00000000ffffffff);
+
+		a = 0x1111ffffffffffff;
+		b = 0x2222222222222222;
 		dut.ai = a;
 		dut.bi = b;
 		dut.sign = 0;
@@ -66,14 +68,41 @@ int main(int argc, char** argv, char** env) {
 		m_trace->dump(sim_time);
 		sim_time++;
 		
-		sprintf(buf,"%lld-%lld=[0x%016x]---",a, b, dut.low);
-		sscanf(buf,"%lld-%lld=[%lld]---",&a_c, &b_c, &s_c);
+		sprintf(buf,"0x%016lx * 0x%016lx = [0x%016lx]---",a, b, dut.low);
+		sscanf(buf,"0x%016lx * 0x%016lx=[0x%016lx]---",&a_c, &b_c, &s_c);
+
+		sprintf(buf2,"0x%016lx * 0x%016lx = [0x%016lx]---",a, b, a*b);
 
 
 		printf("%s",buf);
-		printf("[%lld]--[%lld]-----", a * b);
-		if((a * b) == s_c) printf("对！\n");
-		else printf("错误！！！！\n");
+		printf("[0x%016lx]--", a * b);
+		if(strcmp(buf,buf2) == 0) {printf("对！\n");}
+		
+		else printf("错误 ！！！！\n");
+
+	for(int i = 0; i < 1000; i ++){
+		a = rand()%(0xffffffffffffffff);
+		b = rand()%(0xffffffffffffffff);
+		dut.ai = a;
+		dut.bi = b;
+		dut.sign = 0;
+
+		dut.eval();
+
+		m_trace->dump(sim_time);
+		sim_time++;
+		
+		sprintf(buf,"0x%016lx * 0x%016lx = [0x%016lx]---",a, b, dut.low);
+		sscanf(buf,"0x%016lx * 0x%016lx=[0x%016lx]---",&a_c, &b_c, &s_c);
+
+		sprintf(buf2,"0x%016lx * 0x%016lx = [0x%016lx]---",a, b, a*b);
+
+
+		// printf("%s",buf);
+		// printf("[0x%016lx]--", a * b);
+		if(strcmp(buf,buf2) == 0) {}
+		
+		else printf("错误 ！！！！\n");
 
 		// printf("%lld - %lld  = [%lld]--[%lld] [%lld]\n",a,b, dut.result,(a - b), (dut.a + dut.b + 1));
 	}

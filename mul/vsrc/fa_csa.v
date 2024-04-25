@@ -1,4 +1,4 @@
-module fa_csa #(width=64)(ai,bi,ci,result,co);
+module fa_csa #(width=128)(ai,bi,ci,result,co);
 	input 	[width-1:0]	    ai;
 	input 	[width-1:0]	    bi;
 	input 	[width-1:0]	    ci;

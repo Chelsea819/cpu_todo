@@ -13,13 +13,4 @@ void Vmul_top___024root__trace_cleanup(void* voidSelf, VerilatedVcd* /*unused*/)
     vlSymsp->__Vm_activity = false;
     vlSymsp->TOP.__Vm_traceActivity[0U] = 0U;
     vlSymsp->TOP.__Vm_traceActivity[1U] = 0U;
-    vlSymsp->TOP.__Vm_traceActivity[2U] = 0U;
-    vlSymsp->TOP.__Vm_traceActivity[3U] = 0U;
-    vlSymsp->TOP.__Vm_traceActivity[4U] = 0U;
-    vlSymsp->TOP.__Vm_traceActivity[5U] = 0U;
-    vlSymsp->TOP.__Vm_traceActivity[6U] = 0U;
-    vlSymsp->TOP.__Vm_traceActivity[7U] = 0U;
-    vlSymsp->TOP.__Vm_traceActivity[8U] = 0U;
-    vlSymsp->TOP.__Vm_traceActivity[9U] = 0U;
-    vlSymsp->TOP.__Vm_traceActivity[0xaU] = 0U;
 }

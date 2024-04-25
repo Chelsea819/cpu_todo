@@ -1,3 +1,4 @@
+/* verilator lint_off UNOPTFLAT */
 module carry_generate#(width=4)(p,g,c0,c);
 
 	input 	    [width-1:0]		p;
@@ -24,3 +25,4 @@ module carry_generate#(width=4)(p,g,c0,c);
     //     c[3] = g[3] | (g[2] & p[3]) | (g[1] & p[2] & p[3]) | (g[0] & p[1] & p[3] & p[2]) | (c0 & p[1] & p[0] & p[2] & p[3]);
     // end
 endmodule
+/* verilator lint_on UNOPTFLAT */
