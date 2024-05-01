@@ -1,0 +1,85 @@
+module div (div_clk,rst_n,valid,sign,x,y,result,re,finish);
+    input               div_clk ;
+    input               rst_n   ;
+    input               valid   ;
+    input               sign    ;
+    input   [63:0]      x       ;
+    input   [63:0]      y       ;
+    output  [63:0]      result  ;
+    output  [63:0]      re      ;
+    output              finish  ;  
+
+    wire    [63:0]      x_abs   ;
+    wire    [63:0]      y_abs   ;
+    wire                s_sign  ;
+    wire                r_sign  ;
+
+    reg     [63:0]      s_abs_reg;
+    reg     [63:0]      r_abs_reg;
+
+    // state
+    localparam IDLE = 5'b00001,
+               INIT = 5'b00010,
+               QUOT = 5'b00100,
+               FIX  = 5'b01000,
+               DONE = 5'b10000;
+
+    // get the abs of operation num
+    sign_oppo oppo0(x, sign & x[63], x_abs);    
+    sign_oppo oppo1(y, sign & y[63], y_abs); 
+
+    // get the sign bit of result and rem
+    assign s_sign = x[63] ^ y[63];
+    assign r_sign = x[63];    
+
+    // INIT get src  IDLE->INIT
+    reg     [63:0]      x_abs_reg;
+    reg     [63:0]      y_abs_reg;
+    always @(posedge clk ) begin
+        if(~rst_n) begin
+            x_abs_reg <= 64'b0;
+            y_abs_reg <= 64'b0;
+        end
+        else if(current_state[0] & valid) begin
+            x_abs_reg <= x_abs;
+            y_abs_reg <= y_abs;
+        end
+    end
+
+    // INIT
+    wire [ 5:0] shift_amt;
+    wire [64:0] shift_src;
+    wire [64:0] shift_out;
+
+    wire long_shft;
+    wire short_shft;
+
+    always @(posedge clk ) begin
+        if(~rst_n) begin
+            rem <= 65'b0;
+        end
+        else if(current_state[1]) begin
+            rem <= shift_out;
+        end
+        else if(current_state[2]) begin
+            rem <= {result, rem[30:0], 1'b0}
+        end
+    end
+    assign shift_out = shift_src << shift_amt; // rem << 
+    assign shift_src = (current_state[1]) ? {65'b0, x_abs_reg} : rem;
+    assign shift_amt =  {6{short_shft}} & 6'b1
+                    | {6{long_shft }} & min_shamt;
+    assign long_shft = ~(rem[64] ^ rem[63]); // 1
+    assign short_shft = rem[64] ^ rem[63];   // 0
+
+
+
+
+
+    // get the signed result
+    sign_oppo oppo2(s_abs_reg, sign & s_sign, s);    
+    sign_oppo oppo3(r_abs_reg, sign & r_sign, r); 
+
+
+    
+endmodule
