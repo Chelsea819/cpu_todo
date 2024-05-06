@@ -83,9 +83,8 @@ module div (clk,rst_n,valid,sign,x,y,result,rem,finish);
 
 
     // QUOT output
-    reg     [1:0]       q_tmp;
+    reg     [1:0]       q;
     reg     [5:0]       cout;
-    wire    [5:0]       cout_tmp;
     wire                final_shift;
     reg     [63:0]      add_B;
 
@@ -147,19 +146,18 @@ module div (clk,rst_n,valid,sign,x,y,result,rem,finish);
     end
     
     // QUOT 
-    assign cout_tmp = cout + 6'b1;
     always @(posedge clk) begin
         if(~rst_n | current_state[0]) begin
             cout <= 6'b0;
         end
         else if(current_state[2]) begin
-            cout <= cout_tmp;
+            cout <= cout + 6'b1;
         end
     end
 
     assign final_shift = (cout == (shift - 6'b1));
-    assign add_B = ({64{(q_tmp[0] & q_tmp[1])}} & divisor) 
-                 | ({64{((~q_tmp[1]) & q_tmp[0])}} & divisor_n);
+    assign add_B = ({64{(q[0] & q[1])}} & divisor) 
+                 | ({64{((~q[1]) & q[0])}} & divisor_n);
 
     cla #(64,4) cla0 (
         .a(dividend << 1'b1),
@@ -172,21 +170,21 @@ module div (clk,rst_n,valid,sign,x,y,result,rem,finish);
     // integer i;
     always @(*) begin
         if(~rst_n | current_state[0]) begin
-            q_tmp = 2'b0;
+            q = 2'b0;
         end    
         else begin
             case (dividend[62:61])
                 2'b00: begin
-                    q_tmp = 2'b00;
+                    q = 2'b00;
                 end
                 2'b01: begin
-                    q_tmp = 2'b01;
+                    q = 2'b01;
                 end
                 2'b10: begin
-                    q_tmp = 2'b11;
+                    q = 2'b11;
                 end
                 2'b11: begin
-                    q_tmp = 2'b00;
+                    q = 2'b00;
                 end  
             endcase
         end
@@ -199,8 +197,8 @@ module div (clk,rst_n,valid,sign,x,y,result,rem,finish);
             fix_a <= 64'b0;
         end
         else begin
-            if(~q_tmp[1])
-                fix_a <= {fix_a[62:0],q_tmp[0]};
+            if(~q[1])
+                fix_a <= {fix_a[62:0],q[0]};
             else 
                 fix_a <= {fix_b[62:0],1'b1};
         end
@@ -212,10 +210,10 @@ module div (clk,rst_n,valid,sign,x,y,result,rem,finish);
             fix_b <= 64'b0;
         end
         else begin
-            if(~q_tmp[1] & q_tmp[0])
+            if(~q[1] & q[0])
                 fix_b <= {fix_a[62:0],1'b0};
             else
-                fix_b <= {fix_b[62:0],~q_tmp[0]};
+                fix_b <= {fix_b[62:0],~q[0]};
         end
     end
 
