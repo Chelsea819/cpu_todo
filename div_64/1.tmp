@@ -1,0 +1,12 @@
+verilator -MMD --cc --build -j 0 -O3 --x-assign fast --x-initial fast --noassert --trace \
+	--top-module div /home/chelsea/cpu/div_64/csrc/sim_main.cpp /home/chelsea/cpu/div_64/vsrc/pg_generate.v /home/chelsea/cpu/div_64/vsrc/lzd_32.v /home/chelsea/cpu/div_64/vsrc/lzd_4.v /home/chelsea/cpu/div_64/vsrc/carry_generate.v /home/chelsea/cpu/div_64/vsrc/sign_oppo.v /home/chelsea/cpu/div_64/vsrc/sum_generate.v /home/chelsea/cpu/div_64/vsrc/cla.v /home/chelsea/cpu/div_64/vsrc/lzd_64.v /home/chelsea/cpu/div_64/vsrc/cla_part.v /home/chelsea/cpu/div_64/vsrc/lzd_16.v /home/chelsea/cpu/div_64/vsrc/div.v -CFLAGS -DTOP_NAME="\"Vdiv\"" \
+	-LDFLAGS -lreadline -LDFLAGS -ldl -LDFLAGS -pie \
+		\
+	--Mdir /home/chelsea/cpu/div_64/build/obj_dir --exe -o /home/chelsea/cpu/div_64/build/div
+make[1]: 进入目录“/home/chelsea/cpu/div_64/build/obj_dir”
+ccache g++  -I.  -MMD -I/usr/local/share/verilator/include -I/usr/local/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=0 -DVM_TRACE_VCD=1 -faligned-new -fcf-protection=none -Wno-bool-operation -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow     -DTOP_NAME="Vdiv"   -Os -c -o sim_main.o /home/chelsea/cpu/div_64/csrc/sim_main.cpp
+g++    sim_main.o verilated.o verilated_vcd_c.o verilated_threads.o Vdiv__ALL.a   -lreadline -ldl -pie  -pthread -lpthread -latomic   -o /home/chelsea/cpu/div_64/build/div
+make[1]: 离开目录“/home/chelsea/cpu/div_64/build/obj_dir”
+/home/chelsea/cpu/div_64/build/div
+0xffffffff / 0xffffffff = [0x2f13]--[0x10ec]---[0xffffef13]--[0x10eb]---Fail!
+0x6cb8a882 / 0x4dde6f41 = [0x1]--[0x1]---[0x1eda3941]--[0x1eda3941]---Success!
